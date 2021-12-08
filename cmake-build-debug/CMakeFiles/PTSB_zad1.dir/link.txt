@@ -1,0 +1,3 @@
+C:\Users\SOBAKA\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\212.5284.51\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\PTSB_zad1.dir/objects.a
+D:\Informatics\MinGW\mingw32\bin\ar.exe cr CMakeFiles\PTSB_zad1.dir/objects.a @CMakeFiles\PTSB_zad1.dir\objects1.rsp
+D:\Informatics\MinGW\mingw32\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\PTSB_zad1.dir/objects.a -Wl,--no-whole-archive -o PTSB_zad1.exe -Wl,--out-implib,libPTSB_zad1.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\PTSB_zad1.dir\linklibs.rsp

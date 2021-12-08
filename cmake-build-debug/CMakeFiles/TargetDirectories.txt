@@ -1,0 +1,3 @@
+D:/Informatics/CLionProjects/PTSB_zad1/cmake-build-debug/CMakeFiles/PTSB_zad1.dir
+D:/Informatics/CLionProjects/PTSB_zad1/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Informatics/CLionProjects/PTSB_zad1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
