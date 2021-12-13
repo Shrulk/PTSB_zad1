@@ -29,14 +29,14 @@ double x_start = 0.0, y_start = 0.0;
 double x_end = 1.0, y_end = 1.0;
 
 // Шаг сетки h (одинаков вдоль осей Ox и Oy)
-double h = 0.01;
+double h = 1.0 / 4;
 
 // Количество узлов n.
 // Нумеровать узлы будем как: k = i + [(j-1) * (1/h)], начиная с нуля.
 // Где i - кол-во шагов вдоль оси Oy, j -- вдоль Ox.
-int n = int((x_end - x_start) / h) * int((y_end - y_start) / h);
-int nx = int((x_end - x_start) / h);
-int ny = int((y_end - y_start) / h);
+int n = (int((x_end - x_start) / h) + 1) * (int((y_end - y_start) / h) + 1);
+int nx = int((x_end - x_start) / h) + 1;
+int ny = int((y_end - y_start) / h) + 1;
 
 // Номера строки и столбца точки в центре области (для значений q(x))
 double i_center = int(1.0 / 2.0 / h);
@@ -49,7 +49,7 @@ Matrix<double, 2, 2> kappa;
 class Node {
 private:
     // Номер узла
-    int num{};
+    int index{};
 
     // Номер по строке (номер столбца)
     int j;
@@ -60,13 +60,13 @@ private:
 
 public:
     Node() {
-        num = 0;
+        index = 0;
         i = 0;
         j = 0;
     }
 
-    Node(int k) {
-        num = k;
+    explicit Node(int k) {
+        index = k;
         i = int(k * h); // Целая часть с округлением вниз
         j = k - i;
     }
@@ -77,6 +77,7 @@ class Elem {
 private:
     // Массив, содержащий номера узлов, образующих данный элемент
     int nodesInds[3]{};
+
     /*
     // Значение U_k на этом узле
     double u_k{};
@@ -87,7 +88,11 @@ private:
     // Значение потенциала q(x) на данном узле
     double q; */
 public:
-    Elem(int i, int j, int k){
+    int getIndI(int i) {
+        return this->nodesInds[i - 1];
+    }
+
+    Elem(int i, int j, int k) {
         nodesInds[0] = i;
         nodesInds[1] = j;
         nodesInds[2] = k;
@@ -102,13 +107,27 @@ int main() {
     // Элементы матрицы p(x)
     *&kappa << eps, 0.0,
             0.0, 1.0;
+    // Количество конечных элементов в области
+    int num = 2 * (nx - 1) * (ny - 1);
+
+    // Заполним массив элементов индексами узлов
+    for (int i = 0; i < num; i++) {
+        if (i % 2 == 0) {
+            elements.emplace_back(i / 2 + int((i + 1) / 2 / (nx - 1)),
+                                  i / 2 + int((i + 1) / 2 / (nx - 1)) + nx + 1,
+                                  i / 2 + int((i + 1) / 2 / (nx - 1)) + nx);
+        } else {
+            elements.emplace_back((i - 1) / 2 + int(i / 2 / (nx - 1)),
+                                  (i - 1) / 2 + int(i / 2 / (nx - 1)) + 1,
+                                  (i - 1) / 2 + int(i / 2 / (nx - 1)) + (nx + 1));
+        }
+    }
 
 
-//    for (int i = 0; i < (1 / h); i++) {
-//        for (int j = 0; j < (1 / h); j++) {
-//
-//        }
+//    for (int i = 1; i < num; i++) {
+//        std::cout << i << "    " << elements[i].getIndI(1) << "    " << elements[i].getIndI(2) << "    "
+//                  << elements[i].getIndI(3) << std::endl;
 //    }
-    //std::cout << int(21.99) << std::endl;
+
     return 0;
 }
