@@ -56,15 +56,7 @@ private:
 
     // Номер по столбцу (номер строки)
     int i;
-/*
-    // Значение U_k на этом узле
-    double u_k{};
 
-    // Базисный вектор (всегда равен 1 на этом узле: Phi_k(X_m) = Kroneker_km)
-    double phi = 1;
-
-    // Значение потенциала q(x) на данном узле
-    double q; */
 
 public:
     Node() {
@@ -77,20 +69,6 @@ public:
         num = k;
         i = int(k * h); // Целая часть с округлением вниз
         j = k - i;
-        /*
-        // Определение потенциала q(x)
-        if (i <= i_center && j <= j_center) {
-            q = 0.0;
-        }
-        if (i <= i_center && j > j_center) {
-            q = eps;
-        }
-        if (i > i_center && j <= j_center) {
-            q = 1.0;
-        }
-        if (i > i_center && j > j_center) {
-            q = 0.0;
-        }*/
     }
 };
 
@@ -99,7 +77,15 @@ class Elem {
 private:
     // Массив, содержащий номера узлов, образующих данный элемент
     int nodesInds[3]{};
+    /*
+    // Значение U_k на этом узле
+    double u_k{};
 
+    // Базисный вектор (всегда равен 1 на этом узле: Phi_k(X_m) = Kroneker_km)
+    double phi = 1;
+
+    // Значение потенциала q(x) на данном узле
+    double q; */
 public:
     Elem(int i, int j, int k){
         nodesInds[0] = i;
